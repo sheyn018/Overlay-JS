@@ -18,7 +18,7 @@
             justify-content: center;
             height: 100vh;
         }
-
+    
         .container {
             max-width: 600px;
             width: 100%;
@@ -30,18 +30,18 @@
             text-align: center;
             position: relative; /* Needed for embedded chat positioning */
         }
-
+    
         h1 {
             color: #0D47A1;
             margin-bottom: 20px;
         }
-
+    
         p {
             color: #555;
             font-size: 16px;
             line-height: 1.6;
         }
-
+    
         #overlay {
             position: fixed;
             top: 0;
@@ -55,16 +55,15 @@
             visibility: hidden; /* Initially hidden */
             z-index: 1000; /* High z-index to ensure it covers other content */
         }
-
+    
         #overlayContent {
             background: white;
-            padding: 20px;
+            padding: 40px; /* Increased padding for larger content */
             border-radius: 10px;
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
+            width: 100%;
+            max-width: 800px; /* Increased max-width for larger content */
+            text-align: left; /* Align text to the left */
         }
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
