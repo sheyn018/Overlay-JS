@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,10 +58,12 @@
     
         #overlayContent {
             background: white;
-            padding: 40px; /* Increased padding for larger content */
+            padding: 20px; /* Reduced padding to fit the new size */
             border-radius: 10px;
             width: 100%;
-            max-width: 800px; /* Increased max-width for larger content */
+            max-width: 600px; /* Adjusted max-width */
+            max-height: 80vh; /* Fixed max-height */
+            overflow-y: auto; /* Enable vertical scroll */
             text-align: left; /* Align text to the left */
         }
     </style>
@@ -71,61 +72,57 @@
 
 <body>
 
-        <div class="container">
-            <h1>Welcome to the Test Site!</h1>
-            <button id="showOverlay">Show Overlay</button>
-        </div>    
-    
-        <!-- Overlay container -->
-        <div id="overlay">
-            <div id="overlayContent">Loading...</div>
-        </div>
-    
-        <script>
-            document.getElementById('showOverlay').addEventListener('click', function() {
-                // Check if the overlay already has loaded content before fetching new content
-                if (document.getElementById('overlayContent').innerHTML.trim() === 'Loading...') {
-                    fetch('http://localhost:3000/getOverlay')
-                        .then(response => response.text())
-                        .then(html => {
-                            const overlayContent = document.getElementById('overlayContent');
-                            overlayContent.innerHTML = html; // Insert the fetched HTML
-                            document.getElementById('overlay').style.visibility = 'visible'; // Show the overlay
-        
-                            // Extract and execute scripts
-                            const scripts = Array.from(overlayContent.querySelectorAll("script"));
-                            scripts.forEach(oldScript => {
-                                const newScript = document.createElement("script");
-                                Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                                // If the script has a 'src', handle it differently
-                                if (oldScript.src) {
-                                    // Append the script to the body to ensure it is evaluated
-                                    document.body.appendChild(newScript);
-                                } else {
-                                    newScript.textContent = oldScript.textContent;
-                                    oldScript.parentNode.replaceChild(newScript, oldScript);
-                                }
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error loading the overlay:', error);
+    <div class="container">
+        <h1>Welcome to the Test Site!</h1>
+        <button id="showOverlay">Show Overlay</button>
+    </div>
+
+    <!-- Overlay container -->
+    <div id="overlay">
+        <div id="overlayContent">Loading...</div>
+    </div>
+
+    <script>
+        document.getElementById('showOverlay').addEventListener('click', function() {
+            // Check if the overlay already has loaded content before fetching new content
+            if (document.getElementById('overlayContent').innerHTML.trim() === 'Loading...') {
+                fetch('http://localhost:3000/getOverlay')
+                    .then(response => response.text())
+                    .then(html => {
+                        const overlayContent = document.getElementById('overlayContent');
+                        overlayContent.innerHTML = html; // Insert the fetched HTML
+                        document.getElementById('overlay').style.visibility = 'visible'; // Show the overlay
+
+                        // Extract and execute scripts
+                        const scripts = Array.from(overlayContent.querySelectorAll("script"));
+                        scripts.forEach(oldScript => {
+                            const newScript = document.createElement("script");
+                            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                            // If the script has a 'src', handle it differently
+                            if (oldScript.src) {
+                                // Append the script to the body to ensure it is evaluated
+                                document.body.appendChild(newScript);
+                            } else {
+                                newScript.textContent = oldScript.textContent;
+                                oldScript.parentNode.replaceChild(newScript, oldScript);
+                            }
                         });
-                } else {
-                    // Simply show the overlay if the content is already loaded
-                    document.getElementById('overlay').style.visibility = 'visible';
-                }
-            });
-        
-            document.getElementById('overlay').addEventListener('click', function(event) {
-                if (event.target === this) {
-                    this.style.visibility = 'hidden'; // Hide the overlay
-                }
-            });
-        </script>
-        
-        
-    </body>
-    
-    
+                    })
+                    .catch(error => {
+                        console.error('Error loading the overlay:', error);
+                    });
+            } else {
+                // Simply show the overlay if the content is already loaded
+                document.getElementById('overlay').style.visibility = 'visible';
+            }
+        });
+
+        document.getElementById('overlay').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.style.visibility = 'hidden'; // Hide the overlay
+            }
+        });
+    </script>
 </body>
+
 </html>

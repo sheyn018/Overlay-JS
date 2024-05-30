@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/getOverlay', async (req, res) => {
-    const url = 'http://localhost:5500/chatbot/chatbot.html'; // Replace with the URL of the site you want to fetch
+    const url = 'http://localhost:8000/chatbot.html'; // Replace with the URL of the site you want to fetch
 
     try {
         const response = await axios.get(url);
